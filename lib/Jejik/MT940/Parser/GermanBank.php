@@ -88,15 +88,15 @@ abstract class GermanBank extends AbstractParser
         }
 
         // match it
-        preg_match('#(\d{6})(\d{4})?(R?(?:C|D))([0-9,]{1,15})N([a-zA-Z0-9]+)#', $refLine, $match);
+        preg_match('#(?:\d{10})?(R?(?:C|D))(?:[\d,]{1,15})N(.){3}([A-Za-z0-9\.]+)#', $refLine, $match);
 
         // assure match
-        if (!isset($match[5])) {
+        if (!isset($match[3])) {
             return null;
         }
 
         // return
-        return substr($match[5], 3);
+        return $match[3];
     }
 
     /**
