@@ -431,7 +431,7 @@ abstract class GermanBank extends AbstractParser
         $svwzLine = isset($lines[1]) ? $lines[1] : null;
 
         // pattern
-        $pattern = "(S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z(?:\?2[1-9])?\+)(?:\?(?:2[1-9]))?(?'SVWZ'.*)(?:\?30)";
+        $pattern = "(S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z(?:\?2[1-9])?\+)(?:\?(?:2[1-9]))?(?'SVWZ'.*)(?:\?3[0-4])";
 
         // match it
         /** @var string $svwzLine */
@@ -442,7 +442,7 @@ abstract class GermanBank extends AbstractParser
             return null;
         }
 
-        return preg_replace('/(\?2[1-9])/', '', $match['SVWZ']);
+        return preg_replace('/(\?2[1-9])|(\?3[0-4].*)/', '', $match['SVWZ']);
     }
 
     /**
