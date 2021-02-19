@@ -224,4 +224,15 @@ interface TransactionInterface
      * Set Svwz for this transaction
      */
     public function setSvwz(string $svwz = null): TransactionInterface;
+
+    /**
+     * @param string|null $rawSubfieldData
+     * @return TransactionInterface
+     */
+    public function setRawSubfieldsData(string $rawSubfieldData =null) : TransactionInterface;
+
+    /**
+     * @return string|null
+     */
+    public function getRawSubfieldsData(): ?string;
 }
