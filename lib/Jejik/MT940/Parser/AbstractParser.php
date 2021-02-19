@@ -479,7 +479,8 @@ abstract class AbstractParser
             ->setMref($this->mref($lines))
             ->setCred($this->cred($lines))
             ->setSvwz($this->svwz($lines))
-            ->setDescription($this->description($description));
+            ->setDescription($this->description($description))
+            ->setRawSubfieldsData($this->rawSubfieldsData($lines));
 
         return $transaction;
     }
@@ -658,6 +659,15 @@ abstract class AbstractParser
      * Parse svwz for provided transaction lines
      */
     protected function svwz(array $lines): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @param array $lines
+     * @return null
+     */
+    protected function rawSubfieldsData(array $lines)
     {
         return null;
     }

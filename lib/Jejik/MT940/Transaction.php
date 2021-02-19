@@ -123,6 +123,8 @@ class Transaction implements TransactionInterface
      */
     private $svwz;
 
+    private $rawSubfieldsData;
+
     // }}}
 
     // Getters and setters {{{
@@ -468,6 +470,24 @@ class Transaction implements TransactionInterface
     {
         $this->svwz = $svwz;
         return $this;
+    }
+
+    /**
+     * @param string|null $rawSubfieldsData
+     * @return TransactionInterface
+     */
+    public function setRawSubfieldsData(string $rawSubfieldsData = null): TransactionInterface
+    {
+        $this->rawSubfieldsData = $rawSubfieldsData;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRawSubfieldsData(): ?string
+    {
+        return ($this->rawSubfieldsData !== null) ? trim($this->rawSubfieldsData) : null;
     }
 
     // }}}
