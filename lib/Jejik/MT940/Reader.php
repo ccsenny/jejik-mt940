@@ -45,6 +45,7 @@ class Reader
         'Knab'        => Parser\Knab::class,
         'LandesBankBerlin' => Parser\LandesBankBerlin::class,
         'LandesBankHessen' => Parser\LandesBankHessen::class,
+        'Lbbw' => Parser\Lbbw::class,
         'NuaPayBank'  => Parser\NuaPayBank::class,
         'OldenburgischeLandesbank' => Parser\OldenburgischeLandesbank::class,
         'PostFinance' => Parser\PostFinance::class,
