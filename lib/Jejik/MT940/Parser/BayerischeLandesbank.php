@@ -1,14 +1,24 @@
 <?php declare(strict_types=1);
 
 namespace Jejik\MT940\Parser;
-
+/**
+ * Class BayerischeLandesbank
+ * @package Jejik\MT940\Parser
+ */
 class BayerischeLandesbank extends GermanBank
 {
+    /**
+     * @return string[]
+     */
     public function getAllowedBLZ(): array
     {
         return ['70050000'];
     }
 
+    /**
+     * @param string $text
+     * @return bool
+     */
     public function accept(string $text): bool
     {
         $allowedUniqueIdentifiers = [

@@ -5,6 +5,10 @@ namespace Jejik\Tests\MT940\Parser;
 use Jejik\MT940\Reader;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class BayerischeLandesbankTest
+ * @package Jejik\Tests\MT940\Parser
+ */
 class BayerischeLandesbankTest extends TestCase
 {
 
@@ -20,7 +24,10 @@ class BayerischeLandesbankTest extends TestCase
         $this->statements = $reader->getStatements(file_get_contents(__DIR__ . '/../Fixture/document/bayerischelandesbank.txt'));
     }
 
-    public function testStatement()
+    /**
+     * Test the statement
+     */
+    public function testStatement(): void
     {
         $this->assertCount(1, $this->statements, 'Assert counting statements.');
         $statement = $this->statements[0];
@@ -29,7 +36,10 @@ class BayerischeLandesbankTest extends TestCase
         $this->assertEquals('70050000/4213299', $statement->getAccount()->getNumber());
     }
 
-    public function testBalance()
+    /**
+     *  Test balance
+     */
+    public function testBalance(): void
     {
         $balance = $this->statements[0]->getOpeningBalance();
         $this->assertInstanceOf(\Jejik\MT940\Balance::class, $balance);
@@ -38,8 +48,10 @@ class BayerischeLandesbankTest extends TestCase
         $this->assertEquals(11657017.94, $balance->getAmount());
     }
 
-
-    public function testTransaction()
+    /**
+     * Test transaction with its fields
+     */
+    public function testTransaction(): void
     {
         $transactions = $this->statements[0]->getTransactions();
 
