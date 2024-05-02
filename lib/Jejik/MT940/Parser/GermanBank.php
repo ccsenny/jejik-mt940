@@ -37,7 +37,7 @@ abstract class GermanBank extends AbstractParser
     protected function gvc(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $gvcLine = $lines[1] ?? null;
+        $gvcLine = isset($lines[1]) ? $lines[1] : null;
 
         // assure gvc line
         if ($gvcLine == null) {
@@ -55,7 +55,7 @@ abstract class GermanBank extends AbstractParser
     protected function code(array $lines): ?string
     {
         // get :61: line -- it is first in provided array [:61:,:86:,....]
-        $codeLine = $lines[0] ?? null;
+        $codeLine = isset($lines[0]) ? $lines[0] : null;
 
         // assure code line
         if ($codeLine == null) {
@@ -79,11 +79,11 @@ abstract class GermanBank extends AbstractParser
      */
     protected function supplementaryDetails(array $lines): ?string
     {
-        $refLine = $lines[0] ?? null;
+        $refLine = isset($lines[0]) ? $lines[0] : null;
 
         $parts = preg_split("/\\r\\n|\\r|\\n/", $refLine, 2);
 
-        return $parts[1] ?? null;
+        return isset($parts[1]) ? $parts[1] : null;
     }
 
     /**
@@ -91,7 +91,7 @@ abstract class GermanBank extends AbstractParser
      */
     protected function ref(array $lines): ?string
     {
-        $refLine = $lines[0] ?? null;
+        $refLine = isset($lines[0]) ? $lines[0] : null;
 
         // assure ref line
         if ($refLine == null) {
@@ -102,7 +102,11 @@ abstract class GermanBank extends AbstractParser
         preg_match("/(?'valuta'\d{6})(?'bookingdate'\d{4})?(?'debitcreditid'R?(?:C|D))(?'amount'[0-9,]{1,15})(?:\s*)(?'bookingkey'N[a-zA-Z0-9]{3})(?'reference'[a-zA-Z0-9+]+)(?:\/\/)*(?'bankref'[0-9a-zA-Z]{1,16})*/", $refLine, $match);
 
         // assure match
-        return $match['reference'] ?? null;
+        if (!isset($match['reference'])) {
+            return null;
+        }
+
+        return $match['reference'];
     }
 
     /**
@@ -110,7 +114,7 @@ abstract class GermanBank extends AbstractParser
      */
     protected function bankRef(array $lines): ?string
     {
-        $refLine = $lines[0] ?? null;
+        $refLine = isset($lines[0]) ? $lines[0] : null;
 
         // assure ref line
         if ($refLine == null) {
@@ -121,7 +125,11 @@ abstract class GermanBank extends AbstractParser
         preg_match("/(?'valuta'\d{6})(?'bookingdate'\d{4})?(?'debitcreditid'R?(?:C|D))(?'amount'[0-9,]{1,15})(?:\s*)(?'bookingkey'N[a-zA-Z0-9]{3})(?'reference'[a-zA-Z0-9+]+)(?:\/\/)*(?'bankref'[0-9a-zA-Z]{1,16})*/", $refLine, $match);
 
         // assure match
-        return $match['bankref'] ?? null;
+        if (!isset($match['bankref'])) {
+            return null;
+        }
+
+        return $match['bankref'];
     }
 
     /**
@@ -130,7 +138,7 @@ abstract class GermanBank extends AbstractParser
     protected function txText(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $txTextLine = $lines[1] ?? null;
+        $txTextLine = isset($lines[1]) ? $lines[1] : null;
 
         // assure txText line
         if ($txTextLine === null) {
@@ -142,7 +150,12 @@ abstract class GermanBank extends AbstractParser
         preg_match('#\?00([a-zA-Z0-9\-\s\.]+)#', $this->removeNewLinesFromLine($txTextLine), $match);
 
         // assure match
-        return $match[1] ?? null;
+        if (!isset($match[1])) {
+            return null;
+        }
+
+        // return
+        return $match[1];
     }
 
     /**
@@ -151,7 +164,7 @@ abstract class GermanBank extends AbstractParser
     protected function primanota(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $primanotaLine = $lines[1] ?? null;
+        $primanotaLine = isset($lines[1]) ? $lines[1] : null;
 
         // assure primanota line
         if ($primanotaLine === null) {
@@ -162,7 +175,12 @@ abstract class GermanBank extends AbstractParser
         preg_match('#\?10([a-zA-Z0-9/]{1,10})#', $this->removeNewLinesFromLine($primanotaLine), $match);
 
         // assure match
-        return $match[1] ?? null;
+        if (!isset($match[1])) {
+            return null;
+        }
+
+        // return
+        return $match[1];
     }
 
     /**
@@ -171,7 +189,7 @@ abstract class GermanBank extends AbstractParser
     protected function extCode(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $extCodeLine = $lines[1] ?? null;
+        $extCodeLine = isset($lines[1]) ? $lines[1] : null;
 
         // assure extCode line
         if ($extCodeLine === null) {
@@ -181,7 +199,11 @@ abstract class GermanBank extends AbstractParser
         /** @var string $extCodeLine */
         preg_match('#\?34(\d{3})#', $this->removeNewLinesFromLine($extCodeLine), $match);
 
-        return $match[1] ?? null;
+        if (!isset($match[1])) {
+            return null;
+        }
+
+        return $match[1];
     }
 
     /** Get raw data of subfields ?20 - ?29
@@ -191,7 +213,7 @@ abstract class GermanBank extends AbstractParser
      */
     protected function rawSubfieldsData(array $lines)
     {
-        $subflieldline = isset($lines[1]) ? $lines[1] : null;
+        $subflieldline = $lines[1] ?? null;
 
         $multiUseLine = $this->removeNewLinesFromLine($subflieldline);
         preg_match('#(\?2[0-9][^?]+)+#', $multiUseLine, $match);
@@ -202,6 +224,7 @@ abstract class GermanBank extends AbstractParser
 
         return preg_replace('#(\?2[0-9])#', '', $match[0]);
     }
+
 
     /**
      */
@@ -286,7 +309,7 @@ abstract class GermanBank extends AbstractParser
     protected function bic(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $bicLine = $lines[1] ?? null;
+        $bicLine = isset($lines[1]) ? $lines[1] : null;
 
         // assure bic line
         if ($bicLine === null) {
@@ -297,7 +320,11 @@ abstract class GermanBank extends AbstractParser
         preg_match('#\?30([a-zA-Z0-9]+)#', $this->removeNewLinesFromLine($bicLine), $match);
 
         // assure match
-        return $match[1] ?? null;
+        if (!isset($match[1])) {
+            return null;
+        }
+
+        return $match[1];
     }
 
     /**
@@ -306,7 +333,7 @@ abstract class GermanBank extends AbstractParser
     protected function iban(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $ibanLine = $lines[1] ?? null;
+        $ibanLine = isset($lines[1]) ? $lines[1] : null;
 
         // assure iban line
         if ($ibanLine == null) {
@@ -318,7 +345,12 @@ abstract class GermanBank extends AbstractParser
         preg_match('#\?31([a-zA-Z0-9]+)#', $this->removeNewLinesFromLine($ibanLine), $match);
 
         // assure match
-        return $match[1] ?? null;
+        if (!isset($match[1])) {
+            return null;
+        }
+
+        // return
+        return $match[1];
     }
 
     /**
@@ -327,7 +359,7 @@ abstract class GermanBank extends AbstractParser
     protected function accountHolder(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $accHolderLine = $lines[1] ?? null;
+        $accHolderLine = isset($lines[1]) ? $lines[1] : null;
 
         // assure acc holder line
         if ($accHolderLine == null) {
@@ -366,21 +398,21 @@ abstract class GermanBank extends AbstractParser
     protected function kref(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $krefLine = $lines[1] ?? null;
+        $krefLine = isset($lines[1]) ? $lines[1] : null;
 
         // pattern
-        $pattern = '#K(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?F(?:\?2[1-9])?\+([a-zA-ZöäüÖÄÜß0-9\./?\+\-\s,]+)(C(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?D|S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z)#';
+        $pattern = 'K(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?F(?:\?2[1-9])?\+([a-zA-ZöäüÖÄÜß0-9\./?\+\-\s,]+)(C(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?D|S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z)';
 
         /** @var string $krefLine */
-        preg_match($pattern, $this->removeNewLinesFromLine($krefLine), $match);
+        preg_match("#{$pattern}#", $this->removeNewLinesFromLine($krefLine), $match);
 
         // assure match
         if (!isset($match[1])) {
             // try it without CRED|SVWZ info
-            $pattern = '#K(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?F(?:\?2[1-9])?\+([a-zA-ZöäüÖÄÜß0-9\./?\+\-\s,]+?)(\?3[0-9])#';
+            $pattern = 'K(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?F(?:\?2[1-9])?\+([a-zA-ZöäüÖÄÜß0-9\./?\+\-\s,]+?)(\?3[0-9])';
 
             // match it
-            preg_match($pattern, $this->removeNewLinesFromLine($krefLine), $match);
+            preg_match("#{$pattern}#", $this->removeNewLinesFromLine($krefLine), $match);
         }
 
         // assure match again after avoiding CRED|SVWZ info
@@ -388,6 +420,7 @@ abstract class GermanBank extends AbstractParser
             return null;
         }
 
+        // return
         return preg_replace('#(\?\d{0,2})#', '', $match[1]);
     }
 
@@ -397,11 +430,12 @@ abstract class GermanBank extends AbstractParser
     protected function mref(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $mrefLine = $lines[1] ?? null;
+        $mrefLine = isset($lines[1]) ? $lines[1] : null;
 
-        $pattern = '#M(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?F(?:\?2[1-9])?\+([a-zA-ZöäüÖÄÜß0-9\./?\+\-\s,]+)(C(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?D|S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z)#';
+        $pattern = 'M(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?F(?:\?2[1-9])?\+([a-zA-ZöäüÖÄÜß0-9\./?\+\-\s,]+)(C(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?D|S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z)';
 
-        preg_match($pattern, $this->removeNewLinesFromLine($mrefLine), $match);
+        // match it
+        preg_match("#{$pattern}#", $this->removeNewLinesFromLine($mrefLine), $match);
 
         // assure match
         if (!isset($match[1])) {
@@ -417,12 +451,12 @@ abstract class GermanBank extends AbstractParser
     protected function cred(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $credLine = $lines[1] ?? null;
+        $credLine = isset($lines[1]) ? $lines[1] : null;
 
-        $pattern = '#C(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?D(?:\?2[1-9])?\+([a-zA-ZöäüÖÄÜß0-9\./?\+\-\s,]+)S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z#';
+        $pattern = 'C(?:\?2[1-9])?R(?:\?2[1-9])?E(?:\?2[1-9])?D(?:\?2[1-9])?\+([a-zA-ZöäüÖÄÜß0-9\./?\+\-\s,]+)S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z';
 
         // match it
-        preg_match($pattern, $this->removeNewLinesFromLine($credLine), $match);
+        preg_match("#{$pattern}#", $this->removeNewLinesFromLine($credLine), $match);
 
         // assure match
         if (!isset($match[1])) {
@@ -438,12 +472,12 @@ abstract class GermanBank extends AbstractParser
     protected function svwz(array $lines): ?string
     {
         // get :86: line -- it is second in provided array [:61:,:86:,....]
-        $svwzLine = $lines[1] ?? null;
+        $svwzLine = isset($lines[1]) ? $lines[1] : null;
 
-        $pattern = "/(S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z(?:\?2[1-9])?\+)(?:\?(?:2[1-9]))?(?'SVWZ'.*)(?:\?3[0-4])/";
+        $pattern = "(S(?:\?2[1-9])?V(?:\?2[1-9])?W(?:\?2[1-9])?Z(?:\?2[1-9])?\+)(?:\?(?:2[1-9]))?(?'SVWZ'.*)(?:\?3[0-4])";
 
         /** @var string $svwzLine */
-        preg_match($pattern, $this->removeNewLinesFromLine($svwzLine), $match);
+        preg_match("/{$pattern}/", $this->removeNewLinesFromLine($svwzLine), $match);
 
         // assure match
         if (!isset($match['SVWZ'])) {

@@ -74,7 +74,7 @@ interface TransactionInterface
      * Get Code for this transaction
      * @return null|string
      */
-    public function getCode(): ?string;
+    public function getCode();
 
     /**
      * Set Code for this transaction
@@ -158,7 +158,7 @@ interface TransactionInterface
 
     /**
      * Set Eref for this transaction
-     * @param string|null $eref
+     * @param string $eref
      * @return $this
      */
     public function setEref(string $eref = null): TransactionInterface;
@@ -180,7 +180,7 @@ interface TransactionInterface
 
     /**
      * Set IBAN for this transaction
-     * @param string|null $iban
+     * @param string $iban
      * @return $this
      */
     public function setIBAN(string $iban = null): TransactionInterface;
@@ -236,6 +236,41 @@ interface TransactionInterface
     public function setSvwz(string $svwz = null): TransactionInterface;
 
     /**
+     * @param string|null $rawSubfieldData
+     * @return TransactionInterface
+     */
+    public function setRawSubfieldsData(string $rawSubfieldsData = null) : TransactionInterface;
+
+    /**
+     * @return string|null
+     */
+    public function getRawSubfieldsData(): ?string;
+
+    /**
+     * @param array|null $codeWords
+     * @return TransactionInterface
+     */
+    public function setCodeWords(array $codeWords = null): TransactionInterface;
+
+    /**
+     * @return array|null
+     */
+    public function getCodeWords(): ?array;
+
+    /**
+     * If there's no GVC, try to set/get the transaction-code
+     *
+     * @param string|null $transactionCode
+     * @return TransactionInterface
+     */
+    public function setTransactionCode(string $transactionCode = null): TransactionInterface;
+
+    /**
+     * @return string|null
+     */
+    public function getTransactionCode(): ?string;
+
+    /**
      * Get Purp for this transaction
      */
     public function getPurp(): ?string;
@@ -244,7 +279,7 @@ interface TransactionInterface
      * Set Purp for this transaction
      */
     public function setPurp(string $purp = null): TransactionInterface;
-
+    
     /**
      * Get Debt for this transaction
      */
@@ -294,39 +329,4 @@ interface TransactionInterface
      * Set Abwe for this transaction
      */
     public function setAbwe(string $abwe = null): TransactionInterface;
-
-    /**
-     * @param string|null $rawSubfieldsData
-     * @return TransactionInterface
-     */
-    public function setRawSubfieldsData(string $rawSubfieldsData = null): TransactionInterface;
-
-    /**
-     * @return string|null
-     */
-    public function getRawSubfieldsData(): ?string;
-
-    /**
-     * @param array|null $codeWords
-     * @return TransactionInterface
-     */
-    public function setCodeWords(array $codeWords = null): TransactionInterface;
-
-    /**
-     * @return array|null
-     */
-    public function getCodeWords(): ?array;
-
-    /**
-     * If there's no GVC, try to set/get the transaction-code
-     *
-     * @param string|null $transactionCode
-     * @return TransactionInterface
-     */
-    public function setTransactionCode(string $transactionCode = null): TransactionInterface;
-
-    /**
-     * @return string|null
-     */
-    public function getTransactionCode(): ?string;
 }
