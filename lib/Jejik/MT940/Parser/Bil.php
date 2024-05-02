@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Jejik\MT940 library
  *
- * Copyright (c) 2012 Sander Marechal <s.marechal@jejik.com>
+ * Copyright (c) 2023 Sennur Tas - chargecloud GmbH
  * Licensed under the MIT license
  *
  * For the full copyright and license information, please see the LICENSE
@@ -155,4 +155,3 @@ class Bil extends AbstractParser
         return $match[3];
     }
 }
-

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jejik\Tests\MT940\Parser;
+namespace Jejik\Tests\MT940;
 
 use Jejik\MT940\Reader;
 use Jejik\MT940\TransactionInterface;
