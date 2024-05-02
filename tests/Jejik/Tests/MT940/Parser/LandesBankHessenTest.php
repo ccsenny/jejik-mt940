@@ -55,7 +55,7 @@ class LandesBankHessenTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('MSC' , $transactions[0]->getCode());
         $this->assertEquals('NONREF', $transactions[0]->getRef());
-        $this->assertEquals('NONREF', $transactions[0]->getBankRef());
+        $this->assertEquals(null, $transactions[0]->getBankRef());
 
         $this->assertEquals('835', $transactions[0]->getGVC());
         $this->assertEquals('SONSTIGE NICHT DEF.GV-ARTEN', $transactions[0]->getTxText());

@@ -115,10 +115,10 @@ class IngTest extends TestCase
     public function testBookDate($statements)
     {
         $transactions = $statements[0]->getTransactions();
-        if (null !== $transactions[6]->getValueDate()) {
-            $this->assertEquals('2010-07-22 00:00:00', $transactions[6]->getValueDate()->format('Y-m-d H:i:s'));
+        if (null !== $transactions[count($transactions)-1]->getValueDate()) {
+            $this->assertEquals('2010-07-22 00:00:00', $transactions[count($transactions)-1]->getValueDate()->format('Y-m-d H:i:s'));
         }
-        $this->assertEquals('2010-07-23 00:00:00', $transactions[6]->getBookDate()->format('Y-m-d H:i:s'));
+        $this->assertEquals('2010-07-23 00:00:00', $transactions[count($transactions)-1]->getBookDate()->format('Y-m-d H:i:s'));
     }
 
     /**
@@ -164,7 +164,7 @@ class IngTest extends TestCase
             [
                 $reader->getStatements(file_get_contents(__DIR__ . '/../Fixture/document/ing-4.txt')),
                 'number of transactions' => 4,
-                'bookDate' => '2023-04-20 00:00:00',
+                'bookDate' => '2010-04-20 00:00:00',
                 'valueDate' => null,
                 'amount' => -768.51,
                 [
@@ -201,12 +201,12 @@ class IngTest extends TestCase
                     '{
                         "Code":"CMI", 
                         "TransactionCode":"05001", 
-                        "TxText":"POOL-M NL21INGB0650141172 POOL-S NL30INGB0008693687 PPM9455956 20/04/2023/", 
-                        "Eref":"POOL-M NL21INGB0650141172 POOL-S NL30INGB0008693687 PPM9455956 20/04/2023/", 
+                        "TxText":"POOL-M NL21INGB0650141172 POOL-S NL30INGB0008693687 PPM9455956 22/07/2010/", 
+                        "Eref":"POOL-M NL21INGB0650141172 POOL-S NL30INGB0008693687 PPM9455956 22/07/2010/", 
                         "Bic":null, 
                         "Iban":"NL21INGB0650141***", 
                         "AccountHolder":"Rexel Holding Netherlands B.V.",
-                        "RawSubfieldsData":"/CNTP/NL21INGB0650141***//Rexel Holding Netherlands B.V.///REMI/USTD//POOL-M NL21INGB0650141172 POOL-S NL30INGB0008693687 PPM9455956 20/04/2023/"}',
+                        "RawSubfieldsData":"/CNTP/NL21INGB0650141***//Rexel Holding Netherlands B.V.///REMI/USTD//POOL-M NL21INGB0650141172 POOL-S NL30INGB0008693687 PPM9455956 22/07/2010/"}',
                 ]
             ],
         ];

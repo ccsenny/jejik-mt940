@@ -67,7 +67,7 @@ class ParserTransactionTest extends TestCase
                 'lines' => ['100722RC12,34NOV NONREF', 'Test'],
                 'exception' => null,
                 'asserts' => [
-                    'amount' => 12.34,
+                    'amount' => -12.34,
                     'description' => 'Test'
                 ]
             ],
