@@ -36,7 +36,7 @@ class AbnAmroTest extends TestCase
         $this->statements = $reader->getStatements(file_get_contents(__DIR__ . '/../Fixture/document/abnamro.txt'));
     }
 
-    public function testStatement(): void
+    public function testStatement()
     {
         $this->assertCount(2, $this->statements);
         $statement = $this->statements[0];
@@ -45,7 +45,7 @@ class AbnAmroTest extends TestCase
         $this->assertEquals('517852257', $statement->getAccount()->getNumber());
     }
 
-    public function testBalance(): void
+    public function testBalance()
     {
         $balance = $this->statements[0]->getOpeningBalance();
         $this->assertInstanceOf(\Jejik\MT940\Balance::class, $balance);
@@ -54,7 +54,7 @@ class AbnAmroTest extends TestCase
         $this->assertEquals(3236.28, $balance->getAmount());
     }
 
-    public function testTransaction(): void
+    public function testTransaction()
     {
         $transactions = $this->statements[0]->getTransactions();
         $this->assertCount(8, $transactions);
@@ -76,7 +76,7 @@ class AbnAmroTest extends TestCase
         $this->assertEquals('528939882', $transactions[1]->getContraAccount()->getNumber());
     }
 
-    public function testContinuedStatement(): void
+    public function testContinuedStatement()
     {
         $this->assertEquals('19322/1', $this->statements[1]->getNumber());
 
@@ -89,7 +89,7 @@ class AbnAmroTest extends TestCase
         $this->assertEquals(1849.75, $balance->getAmount());
     }
 
-    public function testContraAccountName(): void
+    public function testContraAccountName()
     {
         $transactions = $this->statements[0]->getTransactions();
         $this->assertEquals('KPN - DIGITENNE', $transactions[0]->getContraAccount()->getName());
