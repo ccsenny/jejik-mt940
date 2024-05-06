@@ -14,6 +14,9 @@ declare(strict_types=1);
 
 namespace Jejik\Tests\MT940\Parser;
 
+use Jejik\MT940\Balance;
+use Jejik\MT940\Exception\NoParserFoundException;
+use Jejik\MT940\Parser\Ing;
 use Jejik\MT940\Reader;
 use PHPUnit\Framework\TestCase;
 
@@ -24,6 +27,7 @@ use PHPUnit\Framework\TestCase;
  */
 class IngTest extends TestCase
 {
+
     /**
      * @dataProvider statementsProvider
      *
@@ -46,9 +50,9 @@ class IngTest extends TestCase
      */
     public function testBalance($statements)
     {
-        /** @var \Jejik\MT940\Balance $balance */
+        /** @var Balance $balance */
         $balance = $statements[0]->getOpeningBalance();
-        $this->assertInstanceOf(\Jejik\MT940\Balance::class, $balance);
+        $this->assertInstanceOf(Balance::class, $balance);
         $this->assertEquals('2010-07-22 00:00:00', $balance->getDate()->format('Y-m-d H:i:s'));
         $this->assertEquals('EUR', $balance->getCurrency());
         $this->assertEquals(0.0, $balance->getAmount());
@@ -58,6 +62,11 @@ class IngTest extends TestCase
      * @dataProvider statementsProvider
      *
      * @param array $statements
+     * @param int|null $numberOfTransactions
+     * @param string|null $bookDate
+     * @param string|null $valueDate
+     * @param float|null $amount
+     * @param array|null $transactionsData
      */
     public function testTransaction(
         array   $statements,
@@ -76,8 +85,8 @@ class IngTest extends TestCase
         $this->assertEquals($amount, $transactions[0]->getAmount());
 
         $expected = "RC AFREKENING BETALINGSVERKEER\r\n"
-                  . "BETREFT REKENING 4715589 PERIODE: 01-10-2010 / 31-12-2010\r\n"
-                  . "ING Bank N.V. tarifering ING";
+            . "BETREFT REKENING 4715589 PERIODE: 01-10-2010 / 31-12-2010\r\n"
+            . "ING Bank N.V. tarifering ING";
 
         if (!$transactionsData) {
             $this->assertEquals($expected, $transactions[0]->getDescription());
@@ -113,8 +122,7 @@ class IngTest extends TestCase
     }
 
     /**
-     * @dataProvider statementsProvider
-     * @throws \Jejik\MT940\Exception\NoParserFoundException
+     * @throws NoParserFoundException
      */
     public function statementsProvider(): array
     {

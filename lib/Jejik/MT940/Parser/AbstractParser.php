@@ -244,7 +244,7 @@ abstract class AbstractParser
      *
      * @throws \Exception
      */
-    protected function statement(string $text): ?Statement
+    protected function statement(string $text): ?StatementInterface
     {
         $text = trim($text);
         if (($pos = strpos($text, ':20:')) === false) {
@@ -272,7 +272,7 @@ abstract class AbstractParser
      *
      * @throws \Exception
      */
-    protected function statementBody(string $text): ?Statement
+    protected function statementBody(string $text): ?StatementInterface
     {
         $accountNumber = $this->accountNumber($text);
         $accountCurrency = $this->accountCurrency($text);
@@ -351,10 +351,7 @@ abstract class AbstractParser
             if ($line60F = $this->getLine('60F', $text)) {
                 $pcreCurrency = '/(C|D)(\d{6})([A-Z]{3})([0-9,]{1,15})/';
                 preg_match($pcreCurrency, $text, $match);
-                if (isset($match[3])) {
-                    return $match[3];
-                }
-                return null;
+                return $match[3] ?? null;
             }
         }
         return $currency;
@@ -425,7 +422,7 @@ abstract class AbstractParser
 
         // Parse the amount
         $amount = (float)str_replace(',', '.', $match[4]);
-        if (in_array($match[3], array('D', 'DR','RC','RCR','RDR'))) {
+        if (in_array($match[3], array('D', 'DR','RC','RCR', 'RDR'))) {
             $amount *= -1;
         }
 
@@ -468,7 +465,7 @@ abstract class AbstractParser
             $bookDate = $bookDateCollection[min(array_keys($bookDateCollection))];
         }
 
-        $description = isset($lines[1]) ? $lines[1] : null;
+        $description = $lines[1] ?? null;
         $transaction = $this->reader->createTransaction();
         $transaction
             ->setAmount($amount)
@@ -694,7 +691,7 @@ abstract class AbstractParser
     {
         return null;
     }
-    
+
     /**
      * Parse purp for provided transaction lines
      */
@@ -702,7 +699,7 @@ abstract class AbstractParser
     {
         return null;
     }
-    
+
     /**
      * Parse debt for provided transaction lines
      */
@@ -710,7 +707,7 @@ abstract class AbstractParser
     {
         return null;
     }
-    
+
     /**
      * Parse coam for provided transaction lines
      */
@@ -718,7 +715,7 @@ abstract class AbstractParser
     {
         return null;
     }
-    
+
     /**
      * Parse oamt for provided transaction lines
      */
@@ -726,7 +723,7 @@ abstract class AbstractParser
     {
         return null;
     }
-    
+
     /**
      * Parse abwa for provided transaction lines
      */
@@ -734,7 +731,7 @@ abstract class AbstractParser
     {
         return null;
     }
-    
+
     /**
      * Parse abwe for provided transaction lines
      */
