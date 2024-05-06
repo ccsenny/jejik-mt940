@@ -35,6 +35,7 @@ class Commerzbank extends GermanBank
 
         // unique identifier check
         $mt940Identifier = substr($text, 0, 20);
+
         if (in_array($mt940Identifier, $allowedUniqueIdentifiers, true)) {
             return true;
         }
@@ -55,7 +56,7 @@ class Commerzbank extends GermanBank
             '28540034',
             '50040000',
             '16040000',
-            '25040066'
+            '25040066',
         ];
     }
 }

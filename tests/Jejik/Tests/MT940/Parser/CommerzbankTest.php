@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class CommerzbankTest extends TestCase
 {
-    private $reader;
+    private Reader $reader;
 
     public function setUp(): void
     {

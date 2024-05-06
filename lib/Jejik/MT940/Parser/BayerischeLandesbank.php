@@ -1,19 +1,6 @@
-<?php
-
-declare(strict_types=1);
-
-/*
- * This file is part of the Jejik\MT940 library
- *
- * Copyright (c) 2023 Sennur Tas - chargecloud GmbH
- * Licensed under the MIT license
- *
- * For the full copyright and license information, please see the LICENSE
- * file that was distributed with this source code.
- */
+<?php declare(strict_types=1);
 
 namespace Jejik\MT940\Parser;
-
 /**
  * Class BayerischeLandesbank
  * @package Jejik\MT940\Parser

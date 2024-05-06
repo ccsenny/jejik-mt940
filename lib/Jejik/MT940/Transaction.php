@@ -131,18 +131,6 @@ class Transaction implements TransactionInterface
     /**
      * @var string
      */
-    private $rawSubfieldsData;
-
-    /**
-     * @var array|null
-     */
-    private $codeWords;
-
-    /**
-     * @var string|null
-     */
-    private $transactionCode;
-
     /**
      * @var string
      */
@@ -173,8 +161,19 @@ class Transaction implements TransactionInterface
      */
     private $abwe;
 
-    // }}}
+    private $rawSubfieldsData;
 
+    /**
+     * @var array|null
+     */
+    private $codeWords;
+
+    /**
+     * @var string|null
+     */
+    private $transactionCode;
+
+    // }}}
     // Getters and setters {{{
 
     /**
@@ -272,7 +271,7 @@ class Transaction implements TransactionInterface
 
     /**
      * Set Code for this transaction
-     * @param string $code
+     * @param string|null $code
      * @return $this
      */
     public function setCode(string $code = null): TransactionInterface
@@ -538,7 +537,7 @@ class Transaction implements TransactionInterface
         $this->svwz = $svwz;
         return $this;
     }
-    
+
     /**
      * Get Purp for this transaction
      */
@@ -691,4 +690,6 @@ class Transaction implements TransactionInterface
     {
         return $this->transactionCode !== null ? $this->transactionCode : null;
     }
+
+    // }}}
 }
