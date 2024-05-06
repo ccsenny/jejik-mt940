@@ -422,7 +422,7 @@ abstract class AbstractParser
 
         // Parse the amount
         $amount = (float)str_replace(',', '.', $match[4]);
-        if (in_array($match[3], array('D', 'DR','RC','RCR', 'RDR'))) {
+        if (in_array($match[3], array('D', 'DR','RC','RCR'))) {
             $amount *= -1;
         }
 
@@ -494,10 +494,7 @@ abstract class AbstractParser
             ->setOamt($this->oamt($lines))
             ->setAbwa($this->abwa($lines))
             ->setAbwe($this->abwe($lines))
-            ->setDescription($this->description($description))
-            ->setRawSubfieldsData($this->rawSubfieldsData($lines))
-            ->setCodeWords($this->codeWords($lines))
-            ->setTransactionCode($this->transactionCode($lines));
+            ->setDescription($this->description($description));
 
         return $transaction;
     }
@@ -736,33 +733,6 @@ abstract class AbstractParser
      * Parse abwe for provided transaction lines
      */
     protected function abwe(array $lines): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @param array $lines
-     * @return null
-     */
-    protected function rawSubfieldsData(array $lines)
-    {
-        return null;
-    }
-
-    /**
-     * @param array $lines
-     * @return null
-     */
-    protected function codeWords(array $lines)
-    {
-        return null;
-    }
-
-    /**
-     * @param array $lines
-     * @return null
-     */
-    protected function transactionCode(array $lines)
     {
         return null;
     }

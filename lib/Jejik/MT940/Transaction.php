@@ -131,9 +131,6 @@ class Transaction implements TransactionInterface
     /**
      * @var string
      */
-    /**
-     * @var string
-     */
     private $purp;
 
     /**
@@ -161,19 +158,8 @@ class Transaction implements TransactionInterface
      */
     private $abwe;
 
-    private $rawSubfieldsData;
-
-    /**
-     * @var array|null
-     */
-    private $codeWords;
-
-    /**
-     * @var string|null
-     */
-    private $transactionCode;
-
     // }}}
+
     // Getters and setters {{{
 
     /**
@@ -537,7 +523,7 @@ class Transaction implements TransactionInterface
         $this->svwz = $svwz;
         return $this;
     }
-
+    
     /**
      * Get Purp for this transaction
      */
@@ -638,57 +624,6 @@ class Transaction implements TransactionInterface
     {
         $this->abwe = $abwe;
         return $this;
-    }
-
-    /**
-     * @param string|null $rawSubfieldsData
-     * @return TransactionInterface
-     */
-    public function setRawSubfieldsData(string $rawSubfieldsData = null): TransactionInterface
-    {
-        $this->rawSubfieldsData = $rawSubfieldsData;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getRawSubfieldsData(): ?string
-    {
-        return ($this->rawSubfieldsData !== null) ? trim($this->rawSubfieldsData) : null;
-    }
-
-    /**
-     * @param array|null $codeWords
-     * @return TransactionInterface
-     */
-    public function setCodeWords(array $codeWords = null): TransactionInterface
-    {
-        $this->codeWords = $codeWords;
-        return $this;
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getCodeWords(): ?array
-    {
-        return $this->codeWords !== null ? $this->codeWords : null;
-    }
-
-    /**
-     * @param string|null $transactionCode
-     * @return TransactionInterface
-     */
-    public function setTransactionCode(string $transactionCode = null): TransactionInterface
-    {
-        $this->transactionCode = $transactionCode;
-        return $this;
-    }
-
-    public function getTransactionCode(): ?string
-    {
-        return $this->transactionCode !== null ? $this->transactionCode : null;
     }
 
     // }}}
